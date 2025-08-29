@@ -1,0 +1,65 @@
+service: rust-lambda-test
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'eu-west-1'}
+  timeout: 30
+
+  architecture: arm64
+  memorySize: 512
+
+  stackTags:
+    environment: ${self:provider.stage}
+    Application: ${self:service}
+  apiGateway:
+    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+
+  # Environment variables (customize as needed)
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+
+functions:
+  # Rust Lambda Function
+  rust-function:
+    handler: bootstrap
+    runtime: provided.al2023
+    package:
+      individually: true
+      artifact: rust/target/lambda/bootstrap/bootstrap.zip
+    events:
+      - http:
+          path: /rust
+          method: get
+          cors: true
+          integration: lambda-proxy
+
+  # Node.js Lambda Function
+  node-function:
+    handler: node/dist/handler.handler
+    runtime: nodejs20.x
+    package:
+      individually: true
+      patterns:
+        - "!./**"
+        - "node/dist/**"
+        - "node/package.json"
+    events:
+      - http:
+          path: /node
+          method: get
+          cors: true
+          integration: lambda-proxy
+
+plugins:
+  - serverless-apigateway-deployment-timestamp # Serverless plugin to add a timestamp to the API Gateway deployment stage name (otherwise it wont deploy API Gateway changes automatically).
+
+# Package configuration
+package:
+  patterns:
+    - "!./**"
+    - "./rust/target/lambda/**"
+    - "./node/dist/**"
+    - "./node/package.json"

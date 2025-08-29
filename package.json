@@ -1,0 +1,24 @@
+{
+  "name": "rust_lambda_test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build-node": "npm run build --prefix ./node",
+    "build-rust": "cargo lambda build --release --arm64 --manifest-path ./rust/Cargo.toml && cd rust/target/lambda/bootstrap && rm -f bootstrap.zip && zip bootstrap.zip bootstrap",
+    "build": "npm run build-rust && npm run build-node",
+    "deploy": "npm run build && npm run serverless deploy",
+    "package": "npm run build && npm run serverless package",
+    "tear-down": "npm run serverless remove",
+    "serverless": "serverless"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "serverless-apigateway-deployment-timestamp": "^1.0.2"
+  },
+  "dependencies": {
+    "serverless": "^3.40.0"
+  }
+}
