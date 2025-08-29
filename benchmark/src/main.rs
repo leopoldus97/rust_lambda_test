@@ -391,8 +391,7 @@ impl App {
                 timestamp: start_time,
                 rust_time: rust_result.execution_time_ms,
                 node_time: node_result.execution_time_ms,
-                rust_memory: rust_result.memory_usage.rss,
-                node_memory: rust_result.memory_usage.rss
+                node_memory: node_result.memory_usage.rss
                     + node_result.memory_usage.heap_used.unwrap_or(0),
                 task: match self.config_field {
                     ConfigField::Limit => "primes".to_string(),
