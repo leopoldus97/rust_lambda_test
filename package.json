@@ -16,8 +16,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "serverless-apigateway-deployment-timestamp": "^1.0.2",
-    "serverless-rust": "^0.3.8"
+    "serverless-apigateway-deployment-timestamp": "^1.0.2"
   },
   "dependencies": {
     "serverless": "^3.40.0"
