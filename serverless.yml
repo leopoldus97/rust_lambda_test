@@ -57,11 +57,6 @@ plugins:
   - serverless-apigateway-deployment-timestamp # Serverless plugin to add a timestamp to the API Gateway deployment stage name (otherwise it wont deploy API Gateway changes automatically).
 
 custom:
-  rust:
-    cargoLambda: true
-    # Use local cargo-lambda build instead of Docker
-    dockerless: true
-
 # Package configuration
 package:
   patterns:
