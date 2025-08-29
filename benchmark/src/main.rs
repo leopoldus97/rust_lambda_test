@@ -210,8 +210,7 @@ impl App {
             .send()
             .await;
 
-        // Check for cold start (simplified logic)
-        let _cold_start = start_time.timestamp() > (Utc::now().timestamp() - 300); // Within last 5 minutes
+        // Cold start detection not implemented; always returns false for now.
 
         let duration = if let Ok(response) = duration_request {
             response
